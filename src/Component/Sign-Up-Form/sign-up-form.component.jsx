@@ -6,8 +6,8 @@ import {
   createUserDocFromAuth,
 } from "../../utils/firebase/firebase.util";
 import FormInput from "../Form-Input/FormInput.component";
-import './sign-up.styles.scss'
-import Button from "../../Component/Button/Button.component";
+import './sign-up-form.styles.scss'
+import Button from "../Button/Button.component";
 
 const SignUpForm = () => {
   const defaultFormField = {
@@ -36,21 +36,22 @@ const SignUpForm = () => {
       alert("Your password it dosn't matched");
       return;
     }
-        try {
-          const { user } = await createAuthUserWithEmailAndPassword(
-            email,
-            password
-          );
+    try {
+      const { user } = await createAuthUserWithEmailAndPassword(
+        email,
+        password
+      );
+      reseteFields()
 
-          await createUserDocFromAuth(user, { UserName });
-          reseteFields();
-        } catch (error) {
-          if (error.code === "auth/email-already-in-use") {
-            alert("Cannot create user, email already in use");
-          } else {
-            console.log("user creation encountered an error", error);
-          }
-        } 
+      await createUserDocFromAuth(user, {UserName})
+
+
+    } catch (error) {
+        if (error.code === "auth/email-already-in-use") {
+          alert("Cannot create this user, email already used");
+        }
+      console.log("user created encountred an error", error.message);
+    }
   };
 
   return (
