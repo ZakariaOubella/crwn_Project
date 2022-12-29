@@ -6,10 +6,11 @@ import {
   createUserDocFromAuth,
 } from "../../utils/firebase/firebase.util";
 import FormInput from "../Form-Input/FormInput.component";
-import './sign-up-form.styles.scss'
+import "./sign-up-form.styles.scss";
 import Button from "../Button/Button.component";
 
 const SignUpForm = () => {
+  
   const defaultFormField = {
     UserName: "",
     email: "",
@@ -17,13 +18,12 @@ const SignUpForm = () => {
     confirmPassword: "",
   };
 
-
-  const reseteFields = () => {
-    setFormField(defaultFormField)
-  }
-
   const [formField, setFormField] = useState(defaultFormField);
   const { UserName, email, password, confirmPassword } = formField;
+
+  const reseteFields = () => {
+    setFormField(defaultFormField);
+  };
 
   const handelChange = (e) => {
     const { name, value } = e.target;
@@ -36,20 +36,18 @@ const SignUpForm = () => {
       alert("Your password it dosn't matched");
       return;
     }
+
     try {
       const { user } = await createAuthUserWithEmailAndPassword(
         email,
         password
       );
-      reseteFields()
-
-      await createUserDocFromAuth(user, {UserName})
-
-
+      reseteFields();
+      await createUserDocFromAuth(user, { UserName });
     } catch (error) {
-        if (error.code === "auth/email-already-in-use") {
-          alert("Cannot create this user, email already used");
-        }
+      if (error.code === "auth/email-already-in-use") {
+        alert("Cannot create this user, email already used");
+      }
       console.log("user created encountred an error", error.message);
     }
   };
