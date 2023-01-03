@@ -5,6 +5,7 @@ import ReactDOM from "react-dom/client";
 
 import { UserProvider } from "./Context/user.context";
 import { ProductsProvider } from "./Context/product.context";
+import { CartProvider } from "./Context/Cart.context";
 
 import App from "./App";
 import "./index.scss";
@@ -15,7 +16,9 @@ root.render(
     <BrowserRouter>
       <UserProvider>
         <ProductsProvider>
-          <App />
+          <CartProvider>
+            <App />
+          </CartProvider>
         </ProductsProvider>
       </UserProvider>
     </BrowserRouter>
